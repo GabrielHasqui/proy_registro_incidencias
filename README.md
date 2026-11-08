@@ -1,19 +1,18 @@
 # Registro de incidencias
 
-Base preliminar para la versión `v1.0.0` del proyecto grupal de Gestión de la Configuración del Software. La aplicación está hecha con HTML, CSS y JavaScript.
+Base preliminar de la aplicación para el proyecto grupal de Gestión de la Configuración del Software. Está hecha con HTML, CSS y JavaScript.
 
 ## Cómo usarla
 
-1. Abre `index.html` en Chrome o Edge.
-2. Pulsa **Nueva incidencia** y escribe un título y una descripción.
-3. Guarda el reporte. Aparecerá en el listado con estado **Abierta**.
+Desde la carpeta del proyecto, ejecuta `py -m http.server 8000 --bind 127.0.0.1` y abre [la aplicación local](http://127.0.0.1:8000/) en el navegador.
 
-Para probarla con un servidor local, ejecuta `py -m http.server 8000 --bind 127.0.0.1` desde la carpeta del proyecto y abre [la aplicación local](http://127.0.0.1:8000/).
+Pulsa **Nueva incidencia**, escribe un título y una descripción y guarda el reporte. El tablero muestra las columnas **Abierta**, **En proceso** y **Resuelta**. Las incidencias nuevas aparecen en **Abierta**. Para cambiar el estado, arrastra la tarjeta con el mouse a la columna de destino. La barra lateral lleva directamente a cada columna.
 
-## Archivos
+## Estructura
 
-- `index.html` contiene el listado y el formulario.
-- `estilos.css` define el diseño del tablero, las tarjetas y el modal.
-- `app.js` valida, guarda y muestra las incidencias.
+- `index.html` contiene la página y el formulario.
+- `css/estilos.css` define el diseño.
+- `js/app.js` valida los datos y actualiza el tablero.
+- `data/incidencias.json` contiene los registros de ejemplo que se cargan al iniciar.
 
-Los reportes se guardan en el almacenamiento local del navegador. Cada registro contiene un identificador, el título, la descripción, el estado y la fecha.
+La aplicación lee el archivo JSON y guarda los registros nuevos y los cambios de estado como JSON en el almacenamiento local del navegador. Cada navegador conserva sus propios registros.

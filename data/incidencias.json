@@ -1,0 +1,23 @@
+[
+  {
+    "id": "00000001",
+    "titulo": "Error al adjuntar un archivo PDF",
+    "descripcion": "Al subir un PDF, el formulario muestra un error y pierde el archivo seleccionado.",
+    "estado": "Abierta",
+    "fecha": "2026-11-07T14:30:00.000Z"
+  },
+  {
+    "id": "00000002",
+    "titulo": "El menú tapa el botón de búsqueda",
+    "descripcion": "El equipo está revisando la posición del menú en pantallas pequeñas.",
+    "estado": "En proceso",
+    "fecha": "2026-11-06T14:30:00.000Z"
+  },
+  {
+    "id": "00000003",
+    "titulo": "Enlace de recuperación de contraseña",
+    "descripcion": "Se corrigió la dirección del enlace y se verificó con un correo de prueba.",
+    "estado": "Resuelta",
+    "fecha": "2026-11-05T14:30:00.000Z"
+  }
+]

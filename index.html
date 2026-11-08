@@ -4,35 +4,78 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Registro de incidencias</title>
-    <link rel="stylesheet" href="estilos.css">
-    <script src="app.js" defer></script>
+    <link rel="stylesheet" href="css/estilos.css">
+    <script src="js/app.js" defer></script>
 </head>
 <body>
     <header class="barra">
-        <div class="contenedor barra-contenido">
+        <div class="barra-contenido">
             <a class="marca" href="index.html">
-                <span class="marca-icono" aria-hidden="true">✓</span>
+                <span class="marca-icono" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="4" y="4" width="16" height="16" rx="3"/>
+                        <path d="m8 12 2.5 2.5L16 9"/>
+                    </svg>
+                </span>
                 Registro de incidencias
             </a>
-            <button type="button" id="abrir-registro" aria-haspopup="dialog">Nueva incidencia</button>
+            <button type="button" id="abrir-registro" aria-haspopup="dialog">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                    <path d="M12 5v14M5 12h14"/>
+                </svg>
+                Nueva incidencia
+            </button>
         </div>
     </header>
 
-    <main class="contenedor">
-        <p class="ruta">Proyectos <span aria-hidden="true">/</span> Mesa de ayuda</p>
-        <h1>Tablero de incidencias</h1>
-        <p class="bajada">Registra problemas y consulta los reportes del proyecto.</p>
-        <p id="aviso" role="status"></p>
-
-        <section class="tablero" aria-labelledby="titulo-listado">
-            <div class="tablero-cabecera">
-                <h2 id="titulo-listado">Incidencias registradas</h2>
-                <span id="contador" class="contador"></span>
+    <div class="area-trabajo">
+        <aside class="barra-lateral">
+            <div class="proyecto">
+                <span class="proyecto-icono" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="4" y="8" width="16" height="12" rx="2"/>
+                        <path d="M9 8V5h6v3M4 13h16m-10 0v2h4v-2"/>
+                    </svg>
+                </span>
+                <div>
+                    <p class="proyecto-nombre">Mesa de ayuda</p>
+                    <p class="proyecto-codigo">Proyecto INC</p>
+                </div>
             </div>
-            <p id="mensaje-listado" class="mensaje-listado"></p>
-            <div id="listado" class="listado"></div>
-        </section>
-    </main>
+
+            <nav aria-label="Navegación del proyecto">
+                <a class="enlace-lateral enlace-tablero" href="#tablero">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="3" y="4" width="18" height="16" rx="2"/>
+                        <path d="M9 4v16m6-16v16"/>
+                    </svg>
+                    Tablero
+                </a>
+                <p class="lateral-etiqueta">Estados</p>
+                <div class="enlaces-estados">
+                    <a class="enlace-lateral" href="#estado-abierta" data-estado="Abierta"><span class="punto-estado" aria-hidden="true"></span> Abierta</a>
+                    <a class="enlace-lateral" href="#estado-en-proceso" data-estado="En proceso"><span class="punto-estado" aria-hidden="true"></span> En proceso</a>
+                    <a class="enlace-lateral" href="#estado-resuelta" data-estado="Resuelta"><span class="punto-estado" aria-hidden="true"></span> Resuelta</a>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="contenido" id="tablero" tabindex="-1">
+            <p class="ruta">Proyectos <span aria-hidden="true">/</span> Mesa de ayuda</p>
+            <h1>Tablero de incidencias</h1>
+            <p class="bajada">Arrastra las tarjetas entre columnas para cambiar el estado de una incidencia.</p>
+            <p id="aviso" role="status"></p>
+
+            <section class="tablero" aria-labelledby="titulo-listado">
+                <div class="tablero-cabecera">
+                    <h2 id="titulo-listado">Incidencias registradas</h2>
+                    <span id="contador" class="contador"></span>
+                </div>
+                <p id="mensaje-listado" class="mensaje-listado" role="status">Cargando incidencias…</p>
+                <div id="listado" class="listado"></div>
+            </section>
+        </main>
+    </div>
 
     <dialog id="registro" aria-labelledby="titulo-registro">
         <div class="modal-cabecera">
@@ -55,13 +98,29 @@
         </form>
     </dialog>
 
+    <template id="plantilla-columna">
+        <section class="columna" tabindex="-1">
+            <div class="columna-cabecera">
+                <h3><span class="punto-estado" aria-hidden="true"></span><span class="nombre-estado"></span></h3>
+                <span class="contador"></span>
+            </div>
+            <div class="tarjetas"></div>
+        </section>
+    </template>
+
     <template id="plantilla-incidencia">
-        <article class="tarjeta">
+        <article class="tarjeta" draggable="true">
             <div class="tarjeta-cabecera">
-                <span class="codigo"></span>
+                <span class="referencia">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+                        <rect x="4" y="4" width="16" height="16" rx="3"/>
+                        <path d="M12 8v5m0 3h.01"/>
+                    </svg>
+                    <span class="codigo"></span>
+                </span>
                 <span class="estado"></span>
             </div>
-            <h3></h3>
+            <h4></h4>
             <p class="descripcion"></p>
             <time></time>
         </article>
