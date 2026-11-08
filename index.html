@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Registro de incidencias</title>
+    <link rel="stylesheet" href="estilos.css">
+    <script src="app.js" defer></script>
+</head>
+<body>
+    <header class="barra">
+        <div class="contenedor barra-contenido">
+            <a class="marca" href="index.html">
+                <span class="marca-icono" aria-hidden="true">✓</span>
+                Registro de incidencias
+            </a>
+            <button type="button" id="abrir-registro" aria-haspopup="dialog">Nueva incidencia</button>
+        </div>
+    </header>
+
+    <main class="contenedor">
+        <p class="ruta">Proyectos <span aria-hidden="true">/</span> Mesa de ayuda</p>
+        <h1>Tablero de incidencias</h1>
+        <p class="bajada">Registra problemas y consulta los reportes del proyecto.</p>
+        <p id="aviso" role="status"></p>
+
+        <section class="tablero" aria-labelledby="titulo-listado">
+            <div class="tablero-cabecera">
+                <h2 id="titulo-listado">Incidencias registradas</h2>
+                <span id="contador" class="contador"></span>
+            </div>
+            <p id="mensaje-listado" class="mensaje-listado"></p>
+            <div id="listado" class="listado"></div>
+        </section>
+    </main>
+
+    <dialog id="registro" aria-labelledby="titulo-registro">
+        <div class="modal-cabecera">
+            <p class="ruta">Mesa de ayuda · INC</p>
+            <h2 id="titulo-registro">Nueva incidencia</h2>
+            <p class="bajada">Cada incidencia se registra como Abierta.</p>
+        </div>
+        <form id="formulario">
+            <div class="campos">
+                <label for="titulo">Título</label>
+                <input id="titulo" name="titulo" maxlength="120" required autofocus>
+                <label for="descripcion">Descripción</label>
+                <textarea id="descripcion" name="descripcion" rows="4" maxlength="1000" required></textarea>
+                <p id="error-registro" class="error" role="alert"></p>
+            </div>
+            <div class="acciones">
+                <button type="button" class="secundario" id="cancelar">Cancelar</button>
+                <button type="submit">Guardar incidencia</button>
+            </div>
+        </form>
+    </dialog>
+
+    <template id="plantilla-incidencia">
+        <article class="tarjeta">
+            <div class="tarjeta-cabecera">
+                <span class="codigo"></span>
+                <span class="estado"></span>
+            </div>
+            <h3></h3>
+            <p class="descripcion"></p>
+            <time></time>
+        </article>
+    </template>
+</body>
+</html>
