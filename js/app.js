@@ -201,6 +201,16 @@ listado.addEventListener("drop", (evento) => {
 
 filtroEstado.addEventListener("change", mostrarIncidencias);
 
+document.querySelectorAll(".enlaces-estados a[data-estado]").forEach((enlace) => {
+    enlace.addEventListener("click", () => {
+        const estado = enlace.dataset.estado;
+        if (filtroEstado.value !== todosLosEstados && filtroEstado.value !== estado) {
+            filtroEstado.value = estado;
+            mostrarIncidencias();
+        }
+    });
+});
+
 document.querySelector("#abrir-registro").addEventListener("click", () => {
     aviso.removeAttribute("data-error");
     aviso.textContent = "";
