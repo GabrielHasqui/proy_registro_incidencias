@@ -69,7 +69,16 @@
             <section class="tablero" aria-labelledby="titulo-listado">
                 <div class="tablero-cabecera">
                     <h2 id="titulo-listado">Incidencias registradas</h2>
-                    <span id="contador" class="contador"></span>
+                    <div class="herramientas">
+                        <label for="filtro-estado">Filtrar por estado</label>
+                        <select id="filtro-estado">
+                            <option value="Todos">Todos</option>
+                            <option value="Abierta">Abierta</option>
+                            <option value="En proceso">En proceso</option>
+                            <option value="Resuelta">Resuelta</option>
+                        </select>
+                        <span id="contador" class="contador"></span>
+                    </div>
                 </div>
                 <p id="mensaje-listado" class="mensaje-listado" role="status">Cargando incidencias…</p>
                 <div id="listado" class="listado"></div>
