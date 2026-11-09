@@ -244,6 +244,32 @@ h2 {
     font-size: 0.95rem;
 }
 
+.herramientas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.herramientas label {
+    color: var(--texto-secundario);
+    font-size: 0.8rem;
+}
+
+select {
+    border: 1px solid #aebbd1;
+    border-radius: 0.4rem;
+    padding: 0.3rem 0.5rem;
+    color: inherit;
+    background: white;
+    font: inherit;
+    font-size: 0.85rem;
+}
+
+.listado.filtrado {
+    grid-template-columns: minmax(0, 1fr);
+}
+
 .contador, .estado {
     border-radius: 0.25rem;
     padding: 0.2rem 0.45rem;

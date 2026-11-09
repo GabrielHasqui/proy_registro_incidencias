@@ -18,6 +18,8 @@ const contador = document.querySelector("#contador");
 const mensajeListado = document.querySelector("#mensaje-listado");
 const plantilla = document.querySelector("#plantilla-incidencia");
 const plantillaColumna = document.querySelector("#plantilla-columna");
+const filtroEstado = document.querySelector("#filtro-estado");
+const todosLosEstados = "Todos";
 
 function leerIncidencias() {
     const incidencias = [];
@@ -130,8 +132,15 @@ function mostrarIncidencias() {
         grupo.push(incidencia);
     }
 
-    listado.replaceChildren(...estados.map((estado) => crearColumna(estado, grupos.get(estado))));
-    contador.textContent = incidencias.length === 1 ? "1 reporte" : incidencias.length + " reportes";
+    const filtro = filtroEstado.value;
+    const visibles = filtro === todosLosEstados ? estados : [filtro];
+    listado.classList.toggle("filtrado", filtro !== todosLosEstados);
+    listado.replaceChildren(...visibles.map((estado) => crearColumna(estado, grupos.get(estado))));
+
+    const total = incidencias.length === 1 ? "1 reporte" : incidencias.length + " reportes";
+    contador.textContent = filtro === todosLosEstados
+        ? total
+        : grupos.get(filtro).length + " de " + total;
     mensajeListado.textContent = avisos.filter(Boolean).join(" ");
 }
 
@@ -189,6 +198,8 @@ listado.addEventListener("drop", (evento) => {
     aviso.removeAttribute("data-error");
     aviso.textContent = `La incidencia pasó a ${estado}.`;
 });
+
+filtroEstado.addEventListener("change", mostrarIncidencias);
 
 document.querySelector("#abrir-registro").addEventListener("click", () => {
     aviso.removeAttribute("data-error");
