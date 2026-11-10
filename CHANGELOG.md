@@ -9,7 +9,7 @@ Este proyecto usa versionamiento semántico con el formato `MAJOR.MINOR.PATCH`.
 ## [1.1.1] - Corrección
 
 ### Corregido
-- Se corrigió el error de navegación lateral que impedía cambiar entre estados cuando existía un filtro activo (Issue #3).
+- Se corrigió el error de navegación lateral que impedía cambiar entre estados cuando existía un filtro activo. [Issue #3](https://github.com/GabrielHasqui/proy_registro_incidencias/issues/3) · [PR #2](https://github.com/GabrielHasqui/proy_registro_incidencias/pull/2)
 
 ## [1.1.0] - Filtro por estado
 
