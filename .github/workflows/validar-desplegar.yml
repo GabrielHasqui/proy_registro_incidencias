@@ -10,10 +10,6 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: pages
-  cancel-in-progress: false
-
 jobs:
   validar:
     name: Validar la aplicación
@@ -25,7 +21,7 @@ jobs:
       - name: Configurar Node.js
         uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Comprobar que existen los archivos principales
         run: |
@@ -44,9 +40,8 @@ jobs:
         run: |
           node -e '
             const datos = JSON.parse(require("fs").readFileSync("data/incidencias.json", "utf8"));
-            const lista = Array.isArray(datos) ? datos : datos.incidencias;
-            if (!Array.isArray(lista)) throw new Error("El JSON no contiene una lista de incidencias");
-            console.log("JSON válido con " + lista.length + " incidencias");
+            if (!Array.isArray(datos)) throw new Error("El JSON debe contener un arreglo de incidencias en la raíz");
+            console.log("JSON válido con " + datos.length + " incidencias");
           '
 
       - name: Comprobar las referencias de index.html
@@ -60,7 +55,11 @@ jobs:
     needs: validar
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    concurrency:
+      group: pages
+      cancel-in-progress: false
     permissions:
+      contents: read
       pages: write
       id-token: write
     environment:

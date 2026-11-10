@@ -23,6 +23,8 @@ La aplicación lee el archivo JSON y guarda los registros nuevos y los cambios d
 
 El flujo `.github/workflows/validar-desplegar.yml` de GitHub Actions comprueba los archivos principales, la sintaxis de `js/app.js` y el JSON de incidencias en cada pull request hacia `main`. Cuando los cambios se integran en `main` y la validación es exitosa, la aplicación se publica automáticamente en [GitHub Pages](https://gabrielhasqui.github.io/proy_registro_incidencias/).
 
+Para habilitar el despliegue, selecciona **GitHub Actions** como fuente en **Settings → Pages → Source**.
+
 ## Versiones
 
 Las versiones siguen el formato `MAJOR.MINOR.PATCH` y se publican como releases en GitHub. El detalle de cada versión está en [CHANGELOG.md](CHANGELOG.md).
