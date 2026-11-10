@@ -1,0 +1,82 @@
+name: Validar y desplegar
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validar:
+    name: Validar la aplicación
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v5
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+
+      - name: Comprobar que existen los archivos principales
+        run: |
+          for archivo in index.html css/estilos.css js/app.js data/incidencias.json; do
+            if [ ! -f "$archivo" ]; then
+              echo "Falta el archivo $archivo"
+              exit 1
+            fi
+            echo "OK: $archivo"
+          done
+
+      - name: Revisar la sintaxis de JavaScript
+        run: node --check js/app.js
+
+      - name: Validar el archivo JSON de incidencias
+        run: |
+          node -e '
+            const datos = JSON.parse(require("fs").readFileSync("data/incidencias.json", "utf8"));
+            if (!Array.isArray(datos)) throw new Error("El JSON debe contener un arreglo de incidencias en la raíz");
+            console.log("JSON válido con " + datos.length + " incidencias");
+          '
+
+      - name: Comprobar las referencias de index.html
+        run: |
+          grep -q 'href="css/estilos.css"' index.html || { echo "index.html no enlaza css/estilos.css"; exit 1; }
+          grep -q 'src="js/app.js"' index.html || { echo "index.html no enlaza js/app.js"; exit 1; }
+          echo "index.html enlaza correctamente los estilos y el script"
+
+  desplegar:
+    name: Desplegar en GitHub Pages
+    needs: validar
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v5
+
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Empaquetar el sitio
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: .
+
+      - name: Publicar en GitHub Pages
+        id: despliegue
+        uses: actions/deploy-pages@v4
