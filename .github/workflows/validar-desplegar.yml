@@ -43,6 +43,7 @@ jobs:
             if (!Array.isArray(datos)) throw new Error("El JSON debe contener un arreglo de incidencias en la raíz");
             const campos = ["id", "titulo", "descripcion", "fecha"];
             const estados = new Set(["Abierta", "En proceso", "Resuelta"]);
+            const identificadores = new Set();
             for (const [indice, incidencia] of datos.entries()) {
               const registro = "Incidencia " + (indice + 1);
               for (const campo of campos) {
@@ -53,6 +54,8 @@ jobs:
               }
               if (!estados.has(incidencia.estado)) throw new Error(registro + " tiene un estado inválido");
               if (Number.isNaN(Date.parse(incidencia.fecha))) throw new Error(registro + " tiene una fecha inválida");
+              if (identificadores.has(incidencia.id)) throw new Error(registro + " tiene un ID duplicado: " + incidencia.id);
+              identificadores.add(incidencia.id);
             }
             console.log("JSON válido con " + datos.length + " incidencias");
           '

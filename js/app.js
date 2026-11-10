@@ -23,17 +23,38 @@ const todosLosEstados = "Todos";
 
 function leerIncidencias() {
     const incidencias = [];
+    let hayRegistrosInvalidos = false;
     for (let indice = 0; indice < localStorage.length; indice += 1) {
         const clave = localStorage.key(indice);
-        if (clave?.startsWith(prefijo)) {
-            const incidencia = JSON.parse(localStorage.getItem(clave));
-            if (incidencia) {
-                incidencias.push(incidencia);
-            }
+        if (!clave?.startsWith(prefijo)) {
+            continue;
         }
+
+        const valor = localStorage.getItem(clave);
+        if (valor === null) {
+            continue;
+        }
+
+        let incidencia;
+        try {
+            incidencia = JSON.parse(valor);
+        } catch {
+            hayRegistrosInvalidos = true;
+            continue;
+        }
+
+        if (typeof incidencia?.id !== "string" || !incidencia.id.trim() ||
+            typeof incidencia.titulo !== "string" || typeof incidencia.descripcion !== "string" ||
+            !estados.includes(incidencia.estado) || typeof incidencia.fecha !== "string" ||
+            Number.isNaN(Date.parse(incidencia.fecha))) {
+            hayRegistrosInvalidos = true;
+            continue;
+        }
+
+        incidencias.push(incidencia);
     }
 
-    return incidencias;
+    return { incidencias, hayRegistrosInvalidos };
 }
 
 function guardarIncidencia(incidencia) {
@@ -116,8 +137,12 @@ function mostrarIncidencias() {
     const porId = new Map(incidenciasBase.map((incidencia) => [incidencia.id, incidencia]));
     const avisos = [avisoBase];
     try {
-        for (const incidencia of leerIncidencias()) {
+        const { incidencias: incidenciasLocales, hayRegistrosInvalidos } = leerIncidencias();
+        for (const incidencia of incidenciasLocales) {
             porId.set(incidencia.id, incidencia);
+        }
+        if (hayRegistrosInvalidos) {
+            avisos.push("Se omitieron registros locales inválidos.");
         }
     } catch {
         avisos.push("No se pudo leer el almacenamiento del navegador.");
