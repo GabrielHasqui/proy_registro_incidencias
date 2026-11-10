@@ -204,7 +204,7 @@ filtroEstado.addEventListener("change", mostrarIncidencias);
 document.querySelectorAll(".enlaces-estados a[data-estado]").forEach((enlace) => {
     enlace.addEventListener("click", () => {
         const estado = enlace.dataset.estado;
-        if (filtroEstado.value !== todosLosEstados && filtroEstado.value !== estado) {
+        if (filtroEstado.value !== estado) {
             filtroEstado.value = estado;
             mostrarIncidencias();
         }
