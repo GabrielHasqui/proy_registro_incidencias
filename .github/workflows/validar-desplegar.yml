@@ -41,6 +41,19 @@ jobs:
           node -e '
             const datos = JSON.parse(require("fs").readFileSync("data/incidencias.json", "utf8"));
             if (!Array.isArray(datos)) throw new Error("El JSON debe contener un arreglo de incidencias en la raíz");
+            const campos = ["id", "titulo", "descripcion", "fecha"];
+            const estados = new Set(["Abierta", "En proceso", "Resuelta"]);
+            for (const [indice, incidencia] of datos.entries()) {
+              const registro = "Incidencia " + (indice + 1);
+              for (const campo of campos) {
+                const valor = incidencia?.[campo];
+                if (typeof valor !== "string" || !valor.trim()) {
+                  throw new Error(registro + " debe incluir un valor de texto para " + campo);
+                }
+              }
+              if (!estados.has(incidencia.estado)) throw new Error(registro + " tiene un estado inválido");
+              if (Number.isNaN(Date.parse(incidencia.fecha))) throw new Error(registro + " tiene una fecha inválida");
+            }
             console.log("JSON válido con " + datos.length + " incidencias");
           '
 
