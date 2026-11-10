@@ -19,6 +19,10 @@ Para ver solo las incidencias de un estado, elige una opción en **Filtrar por e
 
 La aplicación lee el archivo JSON y guarda los registros nuevos y los cambios de estado como JSON en el almacenamiento local del navegador. Cada navegador conserva sus propios registros.
 
+## Validación y despliegue
+
+El flujo `.github/workflows/validar-desplegar.yml` de GitHub Actions comprueba los archivos principales, la sintaxis de `js/app.js` y el JSON de incidencias en cada pull request hacia `main`. Cuando los cambios se integran en `main` y la validación es exitosa, la aplicación se publica automáticamente en [GitHub Pages](https://gabrielhasqui.github.io/proy_registro_incidencias/).
+
 ## Versiones
 
 Las versiones siguen el formato `MAJOR.MINOR.PATCH` y se publican como releases en GitHub. El detalle de cada versión está en [CHANGELOG.md](CHANGELOG.md).
